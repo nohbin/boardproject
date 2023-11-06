@@ -73,7 +73,7 @@ class JpaRepositoryTest {
         article.setHashtag(updatingHashtag);
 
         // When
-//      Article article = Article.of("new article", "new content", "#Spring");
+//        Article article = Article.of("new article", "new content", "#Spring");
         Article savedArticle = articleRepository.saveAndFlush(article);
 
         // then
