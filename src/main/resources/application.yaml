@@ -9,10 +9,13 @@ logging:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url : jdbc:mysql://localhost:3306/board?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: testz
-    password: 1234
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+#    driver-class-name: org.h2.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url : jdbc:mysql://localhost:3306/board?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      username: testz
+      password: 1234
 
   jpa:
     defer-datasource-initialization: true
@@ -23,7 +26,7 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 100
-    database: MYSQL
+
   h2:
     console:
       enabled: false
