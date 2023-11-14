@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" >
     <title>게시판 페이지</title>
 </head>
 <body>
 
-    <header>
-        헤더 삽입
-        <hr>
+    <header th:replace="header :: header">
+
     </header>
     <main>
         <form>
@@ -70,9 +69,8 @@
             </table>
         </nav>
     </main>
-    <footer>
-        <hr>
-        푸터 삽입부
+    <footer th:replace="footer :: footer">
+
     </footer>
 
 </body>
