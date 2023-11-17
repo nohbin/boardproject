@@ -33,7 +33,7 @@ class ArticleControllerTest {
                 .andExpect(view().name("articles/index"))
                 .andExpect(model().attributeExists("articles"));
     }
-    @Disabled("구현중")
+
     @Test
     @DisplayName("[view][Get] - 게시글 상세페이지 - 정상호출")
     public void givenNothing_andRequestArticleView_thenReturnsArticleView() throws Exception {
@@ -62,7 +62,7 @@ class ArticleControllerTest {
 
         mvc.perform(get("/articles/hashtag"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(content().contentTypeCompatibleWith (MediaType.TEXT_HTML))
                 .andExpect(view().name("articles/hashtag"));
     }
 
