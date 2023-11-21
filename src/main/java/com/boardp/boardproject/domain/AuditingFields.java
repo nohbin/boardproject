@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public class AuditingFields {
+public abstract class AuditingFields {
 
     // JpaAudting 을 통해 사용
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
