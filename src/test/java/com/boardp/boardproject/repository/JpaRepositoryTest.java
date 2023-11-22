@@ -2,6 +2,8 @@ package com.boardp.boardproject.repository;
 
 import com.boardp.boardproject.config.JpaConfig;
 import com.boardp.boardproject.domain.Article;
+import com.boardp.boardproject.domain.UserAccount;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 //@SpringBootTest
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(JpaConfig.class)
@@ -24,12 +27,16 @@ class JpaRepositoryTest {
 
     private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
+    private final UserAccountRepository userAccountRepository;
 
-    public JpaRepositoryTest(@Autowired ArticleRepository articleRepository,
-                             @Autowired ArticleCommentRepository articleCommentRepository)
+    public JpaRepositoryTest(
+            @Autowired ArticleRepository articleRepository,
+            @Autowired ArticleCommentRepository articleCommentRepository,
+            @Autowired UserAccountRepository userAccountRepository)
     {
         this.articleRepository = articleRepository;
         this.articleCommentRepository = articleCommentRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     @DisplayName("Select Test")
@@ -52,9 +59,11 @@ class JpaRepositoryTest {
     void givenTestDate_whenInserting_thenWorksFine(){
         // Given
         Long previousCount = articleRepository.count();
-        Article article = Article.of("new article", "new content", "#Spring");
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("uno", "pw", null, null, null));
+        Article article = Article.of(userAccount, "new article", "new content", "#spring");
+
         // When
-        Article savedArticle = articleRepository.save(article);
+        articleRepository.save(article);
         List<Article> articles = articleRepository.findAll();
 
         // then
@@ -66,7 +75,8 @@ class JpaRepositoryTest {
     @Test
     void givenTestDate_whenUpdating_thenWorksFine(){
         // Given
-        Article article = Article.of("new article", "new content", "#Spring");
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("uno", "pw", null, null, null));
+        Article article = Article.of(userAccount, "new article", "new content", "#spring");
         articleRepository.save(article);
         articleRepository.findById(1L).orElseThrow();
         String updatingHashtag = "#Springboot";
@@ -85,7 +95,8 @@ class JpaRepositoryTest {
     @Test
     void givenTestDate_whenDeleting_thenWorksFine(){
         // Given
-        Article article = Article.of("new article", "new content", "#Spring");
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("uno", "pw", null, null, null));
+        Article article = Article.of(userAccount, "new article", "new content", "#spring");
         articleRepository.save(article);
         articleRepository.findById(1L).orElseThrow();
         long previousArticleCount = articleRepository.count();
