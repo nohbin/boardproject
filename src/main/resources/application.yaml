@@ -27,17 +27,8 @@ spring:
     properties:
       hibernate.format_sql: true
       hibernate.default_batch_fetch_size: 100
-
-      #    defer-datasource-initialization: true
-      #    hibernate:
-      #      ddl-auto: create
-      #
-      #    properties:
-      #      hibernate:
-      #        format_sql: true
-      #        default_batch_fetch_size: 100
-      #        show_sql: true;
     database: mysql
+    open-in-view: false
 
   h2:
     console:
