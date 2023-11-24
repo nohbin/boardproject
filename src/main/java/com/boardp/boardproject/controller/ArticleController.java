@@ -46,6 +46,7 @@ public class ArticleController {
         ArticleWithCommentsResponse article = ArticleWithCommentsResponse.from(articleService.getArticle(articlesId));
         map.addAttribute("article", article);
         map.addAttribute("articleComments", article.articleCommentResponses());
+        map.addAttribute("totlaCount", articleService.getArticleCount());
 
         return "articles/detail";
     }
