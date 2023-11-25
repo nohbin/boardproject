@@ -15,7 +15,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
-@Disabled
 @DisplayName("View 컨트롤러 - 인증")
 @Import(SecurityConfig.class)
 @WebMvcTest(Void.class)
@@ -28,11 +27,12 @@ public class AuthController {
         this.mvc = mvc;
     }
 
-    //    @Disabled("구현중")
+    @DisplayName("[view][GET] 로그인 페이지 - 정상 호출")
     @Test
-    @DisplayName("[view][Get] - 로그인 페이지 - 정상호출")
-    public void givenNothing_whenTryLogin_thenReturnsLoginView() throws Exception {
+    public void givenNothing_whenTryingToLogIn_thenReturnsLogInView() throws Exception {
+        // Given
 
+        // When & Then
         mvc.perform(get("/login"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))

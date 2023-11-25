@@ -64,7 +64,7 @@ class ArticleControllerTest {
         then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
 
-     @DisplayName("[view][GET] 게시글 리스트 (게시판) 페이지 - 검색어와 함께 호출")
+    @DisplayName("[view][GET] 게시글 리스트 (게시판) 페이지 - 검색어와 함께 호출")
     @Test
     public void givenSearchKeyword_whenRequestingSearchingArticlesView_thenReturnsArticlesView() throws Exception {
         // Given
@@ -74,7 +74,7 @@ class ArticleControllerTest {
         given(paginationService.getPaginationBarNumbers(ArgumentMatchers.anyInt(), anyInt())).willReturn(List.of(0,1,2,3,4));
         // When & Then
         mvc.perform(get("/articles")
-                        .queryParam("searchType", searchValue)
+                        .queryParam("searchType", searchType.name())
                         .queryParam("searchValue", searchValue))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
@@ -145,15 +145,52 @@ class ArticleControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("articles/search"));
     }
-    @Disabled("구현중")
     @Test
     @DisplayName("[view][Get] - 게시글 해쉬태그 전용페이지 - 정상호출")
     public void givenNothing_andRequestArticleHashtagSearchView_thenReturnsArticleHashtagSearchView() throws Exception {
 
-        mvc.perform(get("/articles/hashtag"))
+        List<String> hashtags = List.of("#java", "#spring", "boot");
+        given(articleService.searchArticlesViaHashtag(eq(null),any(Pageable.class))).willReturn(Page.empty());
+        given(articleService.getHashtags()).willReturn(hashtags);
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(1,2,3,4,5));
+
+        mvc.perform(get("/articles/search-hashtag"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith (MediaType.TEXT_HTML))
-                .andExpect(view().name("articles/hashtag"));
+                .andExpect(view().name("articles/search-hashtag"))
+                .andExpect(model().attribute("articles", Page.empty()))
+                .andExpect(model().attribute("hashtags" , hashtags))
+                .andExpect(model().attributeExists("paginationBarNumbers"))
+                .andExpect(model().attribute("searchType", SearchType.HASHTAG));
+        then(articleService).should().searchArticlesViaHashtag(eq(null),any(Pageable.class));
+        then(articleService).should().getHashtags();
+        then(paginationService).should().getPaginationBarNumbers(anyInt(),anyInt());
+    }
+
+    @Test
+    @DisplayName("[view][Get] - 게시글 해쉬태그 전용페이지 - 정상호출, 해시태그 입력 ")
+    public void givenHashtag_andRequestArticleHashtagSearchView_thenReturnsArticleSearchHashtagView() throws Exception {
+
+        String hashtag = "#java";
+        List<String> hashtags = List.of("#java", "#spring", "boot");
+        given(articleService.searchArticlesViaHashtag(eq(hashtag),any(Pageable.class))).willReturn(Page.empty());
+        given(articleService.getHashtags()).willReturn(hashtags);
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(1,2,3,4,5));
+
+        mvc.perform(get("/articles/search-hashtag")
+                        .queryParam("searchValue", hashtag)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith (MediaType.TEXT_HTML))
+                .andExpect(view().name("articles/search-hashtag"))
+                .andExpect(model().attribute("articles", Page.empty()))
+                .andExpect(model().attribute("hashtags" , hashtags))
+                .andExpect(model().attributeExists("paginationBarNumbers"))
+                .andExpect(model().attribute("searchType", SearchType.HASHTAG));
+
+        then(articleService).should().searchArticlesViaHashtag(eq(hashtag),any(Pageable.class));
+        then(articleService).should().getHashtags();
+        then(paginationService).should().getPaginationBarNumbers(anyInt(),anyInt());
     }
 
     private ArticleWithCommentsDto createArticleWithCommentsDto() {
