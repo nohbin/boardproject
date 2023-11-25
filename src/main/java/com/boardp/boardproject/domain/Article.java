@@ -20,28 +20,21 @@ import java.util.Set;
 @Entity
 public class Article extends AuditingFields{
 
-    @Setter
-    @ManyToOne(optional = false)
-    private UserAccount userAccount;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    @Column(nullable = false)
-    private String title;
-    @Setter
-    @Column(nullable = false, length = 10000)
-    private String content;
-    @Setter
-    private String hashtag;
+    @Setter @ManyToOne(optional = false) @JoinColumn(name = "userId") private UserAccount userAccount; // 유저 정보 (ID)
 
-    @OrderBy("createdAt DESC")
+    @Setter @Column(nullable = false) private String title; // 제목
+    @Setter @Column(nullable = false, length = 10000) private String content; // 본문
+
+    @Setter private String hashtag; // 해시태그
+
     @ToString.Exclude
-    @OneToMany(mappedBy = "article" , cascade = CascadeType.ALL)
+    @OrderBy("createdAt DESC")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
-
 
 
     protected Article() {}
@@ -52,6 +45,7 @@ public class Article extends AuditingFields{
         this.content = content;
         this.hashtag = hashtag;
     }
+
     public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
         return new Article(userAccount, title, content, hashtag);
     }
@@ -67,4 +61,5 @@ public class Article extends AuditingFields{
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }
