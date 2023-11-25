@@ -1,7 +1,6 @@
-package com.boardp.boardproject.domain.type;
+package com.boardp.boardproject.domain.constant;
 
 import lombok.Getter;
-import org.springframework.web.bind.annotation.GetMapping;
 
 public enum SearchType {
     TITLE("제목"),
