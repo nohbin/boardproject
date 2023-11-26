@@ -34,7 +34,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
 
                 )
-                .formLogin(Customizer.withDefaults())
+                .formLogin(login -> login.defaultSuccessUrl("/"))
                 .logout(customizer -> customizer.logoutSuccessUrl("/"))
                 .build();
     }
