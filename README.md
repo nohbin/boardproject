@@ -1,5 +1,4 @@
-# 게시판 서비스 - 패스트캠퍼스, 10개 프로젝트로 완성하는 백엔드 웹개발
-
+# 게시판 서비스
 [![GitKraken shield](https://img.shields.io/badge/GitKraken-Legendary%20Git%20Tools-teal?style=plastic&logo=gitkraken)](http://gitkraken.link/uno)
 
 가장 기본적이고 보편적인 게시판 기능을 둘러볼 수 있는 서비스입니다. 
