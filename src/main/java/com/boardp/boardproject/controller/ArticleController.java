@@ -90,7 +90,6 @@ public class ArticleController {
 
         return "redirect:/articles";
     }
-
     @GetMapping("/{articleId}/form")
     public String updateArticleForm(@PathVariable Long articleId, ModelMap map) {
         ArticleResponse article = ArticleResponse.from(articleService.getArticle(articleId));
